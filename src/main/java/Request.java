@@ -27,16 +27,25 @@ public class Request {
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
         // Read the output from the command
-        System.out.println("Here is the standard output of the command:\n");
+        String output = "";
         String s = null;
         while (true) {
             try {
                 if ((s = stdInput.readLine()) == null) break;
-                System.out.println(s);
+                output += s;
                 //return new JSONObject(s);
             } catch (IOException  e) {
                 e.printStackTrace();
             }
+        }
+
+        output = output.replace("\n", "");
+
+        System.out.println("Received: " + output);
+        try {
+            return new JSONObject(output);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return null;
     }
